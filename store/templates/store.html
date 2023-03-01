@@ -1,0 +1,81 @@
+ {%load static%}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="{% static 'Style.css'%}">
+    <title>E-Shop</title>
+    <style>
+    ul {
+        list-style-type: none;
+        margin: 0;
+        padding: 5;
+        overflow: hidden;
+        background-color: skyblue;
+        }
+
+    li {
+        float: left;
+        }
+
+    li a {
+        display: block;
+        color: black;
+        text-align: left;
+        padding: 14px 16px;
+        text-decoration: none;
+        }
+
+    li a:hover {
+        background-color: white;
+    }
+  .hello-msg{
+    font-size: 18px;
+    color: black;
+    margin-right: 20px;
+  }
+
+
+    </style>
+</head>
+<body>
+    <ul>
+        <li><a class="active" href="{% url 'store' %} ">Store</a></li>
+        <li><a href="{% url 'cart' %}">Cart</a></li>
+        <li><a  class="hello-msg" href="{% url 'logout' %}">Logout</a></li>
+        <li><a class="hello-msg">Hello, {{request.user}}</a></li>
+	</ul>
+
+    <h1 align="center">Product Menu Card</h1>
+    <table class="customers" align="center">
+        <thead>
+            <tr>
+                <th>Sr No.</th>
+                <th>Image</th>
+                <th>Name</th>
+                <th>Price</th>
+                <th>Description</th>
+                <th>Checkbox</th>
+
+            </tr>
+        </thead>
+        <tbody>
+        {% for product in products %}
+            <tr>
+                <td>{{forloop.counter}}</td>
+                <td><img height="80px" width="100px" src="{{product.image.url}}"/></td>
+                <td>{{product.name}}</td>
+                <td>{{product.price}}</td>
+                <td>{{product.description}}</td>
+                <td><form method="POST" action="{% url 'product' product.id %}">
+			    {% csrf_token %}
+                    <input  min="1" value=1 type="number" name="quantity">
+			        <input class="btn btn-dark" type="submit" value="Add to Cart">
+		        </form></td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table><br>
+
+</body>
+</html>
+
